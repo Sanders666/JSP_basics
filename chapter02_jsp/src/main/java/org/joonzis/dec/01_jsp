@@ -1,0 +1,137 @@
+1. JSP 기본 코드 구조
+	1) 웹 브라우저에 보여줄 HTML 문서를 생성하는 것이 목적
+	2) 크게 설정 부분과 응답 생성 부분으로 구성된다.
+ 
+2. JSP(Java Server Page)
+	1) 서블릿(Servlet) 기반의 서버측 스크립트(Back-end)
+	2) WAS는 이 변환한 Servlet을 동작하여 필요한 기능을 수행한다.
+ 		(1) WAS(Web Application Server) : 정적인 HTML 파일이나 
+ 		이미지를 제공하는 것과 달리 
+	 		웹을 위한 연결, 프로그래밍 언어, 데이터 베이스 연동과 같이 
+	 		어플리케이션을 구현하는데 필요한 기능을 제공
+	 		웹 브라우저로부터 요청이 오면 알맞은 프로그램을 실행하고,
+	 		 프로그램의 실행 결과를 응답으로 전송한다.
+				
+	3) 동작 순서★
+  				1.  요청				 2. 실행
+ 		웹 브라우저─────────────> WAS ───────────> JSP
+ 				<────────────
+				3. 응답 전송
+				
+	 	abc.jsp → abc_jsp.java → abc_jsp.class → Run  
+		(파일)	   (서블릿 생성)	    (클래스생성)
+	
+		(1) JSP에 해당하는 서블릿이 존재하지 않을 경우
+			- JSP 페이지로부터 자바 코드를 생성한다.		───┬───> 서블릿 만드는 작업 필요.
+			- 자바 코드를 컴파일해서 서블릿 클래스를 생성한다.	───┘
+			- 서블릿에 클라이언트 요청을 전달한다.
+			- 서블릿이 요청을 처리한 결과를 응답(HTML)으로 생성한다.
+			- 응답을 웹 브라우저에 전송한다.
+		(2) JSP에 해당하는 서블릿이 존재하는 경우
+			- 서블릿에 클라이언트 요청을 전달한다.
+			- 서블릿이 요청을 처리한 결과를 응답으로 생성한다.
+			- 응답을 웹 브라우저에 전송한다.
+	4) 즉. 모든 JSP는 Servlet으로 변환된다.
+	5) 용도
+	 	(1) JSP : View를 만드는 용도
+	 	(2) Servlet : Logic을 만드는 용도
+ 	
+	6) 스크립트 요소
+	 	(1) <%@ 지시어 %>	: 지시어 (Directive)
+	 	(2) <%! 선언부 %>	: 선언부 (Declaration), 전역 변수 선언, 메소드
+	 	(3) <%= 표현식 %>	: 표현식(Expression), 결과 값 출력(변수값, 리턴값)
+	 	(4) <% 스크립트릿%>	: 스크립트릿(Scriptlet), 일반 자바 코드
+ 	
+	7) 주석
+	 	(1) <!-- HTML 주석 -->	: 소스보기에서 보인다.
+	 	(2) <%-- JSP 주석 --%>	: 소스보기에서 보이지 않는다.
+ 	
+	8) 지시어(directive)
+	 	(1) page 지시어
+	 		- 현재 페이지에 대한 속성 정보를 지정
+	 		- 웹 서버(WAS)가 page 지시어를 보고 해당 페이지를 처리
+	 		- 속성
+		 			[속성명]				 	[의미]									[형식]						 
+				- language			스크립트 코드에서 사용되는 언어				<%@ page language="java" %>		 
+				- contentType		html문서이고, UTF-8 인코딩 사용			<%@ page contentType="text/html; charset=UTF-8" %>
+				- pageEncoding		인코딩 지정							<%@ page pageEncoding="UTF-8" %>
+				- import			사용할 자바클래스 지정					<%@ page import="java.util.Calendar" %>
+				- session			세션 사용여부 지정						<%@ page session="true" %>
+				- buffer			출력 버퍼의 크기 지정					<%@ page buffer="8KB" %>
+				- autoFlush			버퍼가 가득 차면 자동출력  				<%@ page autoFlush="true" %>
+				- errorPage			에러가 발생하면 호출할 페이지를 지정			<%@ page errorPage="이동할 위치" %>
+				- isErrorPage		현재 페이지가 에러 페이지인가 여부 지정 		<%@ page isErrorPage="false" %>	
+					* errorPage와 isErrorPage는 세트로 쓴다!
+	 	(2) taglib 지시어
+	 		- 사용할 태그 라이브러리를 지정
+	 		- JSTL에서 사용
+	 	(3) include 지시어
+			- 현재 페이지에 다른 페이지를 포함시킬 때 사용
+			- 형식
+				<%@ include file="footer.jsp" %>
+			
+	9) 기본 객체
+	 	(1) 이미 만들어져 있는 객체이기 때문에 객체 생성(new)이 필요없다.
+	 		- request 		: 요청 정보
+			- response 		: 응답 정보
+			- out 			: 페이지의 내용을 담고 있는 출력 스트림 객체 
+			- page			: JSP 페이지의 서블릿 객체
+			- pageContext 	: 페이지 실행에 필요한 Context정보를 담고있는 객체 
+			- session		: 세션 정보를 담고 있는 객체 
+			- application 	: 모든 페이지가 공유할 데이터를 담고 있는 객체
+			- config		: 서블릿 설정 시 데이터 초기화 정보를 담고 있는 객체
+			- exception		: 예외 처리 객체
+			
+	10) 4가지 영역
+	 	(1) 데이터가 저장되는 4가지 영역(객체)가 있다.
+	 	(2) 영역에 따라 데이터가 유지되는 생명주기(life cycle)가 다르다.
+	 	(3) 4가지 영역(객체)(짧은 생명주기부터 순서대로!!)
+	 		- pageContext 객체 
+				① 하나의 페이지를 처리할 때 사용하는 영역
+				② page 영역
+				③ 해당 페이지를 벗어나면 데이터가 삭제됨
+			- request 객체
+				① 하나의 요청을 처리할 때 사용하는 영역
+				② request 영역
+				③ response 하면 데이터가 삭제됨
+			- session 객체
+				① 하나의 웹 브라우저를 처리할 때 사용하는 영역
+				② session 영역
+				③ 웹 브라우저를 종료하면 데이터가 삭제됨 
+			- application 객체 
+				① 하나의 웹 애플리케이션에서 사용하는 영역
+				② application 영역
+				③ 웹 애플리케이션을 종료하면 데이터가 삭제됨
+		(4) 4가지 영역에 데이터 저장하기 / 불러오기
+			- 데이터 저장하기
+				① pageContext.setAttribute("속성", "값");	
+				-->"속성"은 변수명 사용하듯 쓰면 된다!
+				② request.setAttribute("속성", "값");
+				③ session.setAttribute("속성", "값");
+				④ application.setAttribute("속성", "값");
+			- 데이터 불러오기(.getAttribute : 반드시  전용 타입으로  
+			캐스팅 해야한다.)
+				① String a = (String)pageContext
+				.getAttribute("속성"); --> String으로 캐스팅
+				② request.getAttribute("속성"); 
+				③ session.getAttribute("속성");
+				④ application.getAttribute("속성");
+			--> setAttribute로 저장했으면 부를때 getAttribute로 불러야한다!
+
+	11) 세션(session)
+	 	(1) 세션에 데이터 저장하기
+	 		- session.setAttribute("속성","값");
+		(2) 세션에 저장된 데이터 불러오기	
+			- session.getAttribute("속성");
+		(3) 세션에 저장된 데이터 삭제하기		
+		session.removeAttribute("속성");	
+		(4) 세션에 저장된 데이터 초기화 하기		
+		session.invalidate();
+		(5) 10분 후 세션에 저장된 정보 소멸 시키기
+			- web.xml 에 작성
+			- 작성 방법
+				<web-app>
+					<session-config>
+						<session-timeout>10</session-timeout>
+					</session-config>
+				</web-app>
