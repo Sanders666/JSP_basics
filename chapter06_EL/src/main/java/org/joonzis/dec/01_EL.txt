@@ -1,0 +1,42 @@
+1. EL(Expression Language)
+	1) JSP 에서 사용하는 새로운 스크립트 언어
+	2) 표현식을 대체하는 역할 (<%= 변수값 %>, <%= 계산식 %>, <%= 함수() %>)
+	3) 4가지 영역(객체)에서 사용
+		(1) pageContext, request, session, application
+	4) EL 표현 방식
+		(1) <%= 변수값 %> --> ${변수값}	
+	5) EL 내장객체 중 파라미터를 사용하는 경우 param, paramValues를 사용
+									   (변수)		(배열)	
+	6) EL 연산자
+		(1) 산술 연산자 
+			- +	: 더하기
+			- - 	: 빼기
+			- div : a를 b로 나눈 몫
+			- mod : a를 b로 나눈 나머지 
+	 	(2) 비교 연산자  
+			- eq 	: == 같다  .
+			- ne 	: != 같지않다.
+			- gt 	: > 크다.
+			- lt 	: < 작다.
+			- ge 	: >= 크거나 같다.
+			- le	: <= 작거나 같다.
+		(3) EL 논리 연산자
+			- and : && 그리고
+			- or 	: || 또는  
+			- not : ! 아니다
+		(4) empty 연산자(empty 값)
+			- 값이 null이면 true 리턴
+			- 값이 빈 문자열("")이면 true 리턴
+			- 값의 길이가 0인 배열이면 true 리턴
+			- 값이 빈 Map이면 true 리턴
+			- 값이 빈 Collection이면 true 리턴
+		(5) 비교 선택 연산자(수식?값1:값2)
+		(6) 문자열 연결
+			<% request.setAttribute("title", "JSP 프로그래밍"); %>
+			- {title} -> JSP 프로그래밍    {"title"} -> title
+			- ${"문자" += "열" += "연결"} -> 문자열연결
+			- ${"제목 : " += title} -> 제목 : JSP 프로그래밍
+			- ${"제목 : "}${title} -> 제목 : JSP 프로그래밍
+			- ${"제목 : ".concat(title)} -> 제목 : JSP 프로그래밍
+			
+			
