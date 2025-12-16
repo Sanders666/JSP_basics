@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- SQL을 저장해두는 곳  -->
+<mapper namespace="org.joonzis.mybatis.member"> <!-- 경로 표기법이 클래스명 표기법처럼 사용된다! -->
+	<!-- 
+		mapper에서는 ?(물음표)를 사용할 수 없다.
+		대신 전달한 파라미터의 이름은 #{}을 통해 적는다.
+		sql문 뒤에 ;(세미콜론)이 없다.
+	 -->
+	
+	<!-- 
+		각 태그 속성
+		1. id : id를 통해서 sql문을 선택 (임의로 결정 가능)
+		2. parameterType : 매개변수의 타입
+		3. resultType : 리턴 데이터의 타입 (풀 패키지로 작성)
+			- insert, update, delete의 경우 무조건 int 형식이기 때문에 작성할 필요가 없다
+	 -->
+	 
+	 <select id="select_all" resultType="org.joonzis.ex.MemberVO">
+	 	select * from member order by idx
+	 </select>
+	 
+	 <insert id="insert" parameterType="org.joonzis.ex.MemberVO" >
+	 	INSERT INTO member VALUES(
+	 		member_seq.nextval,
+	 		#{id},
+	 		#{pw},
+	 		#{name},
+	 		#{age},
+	 		#{addr},
+	 		sysdate
+	 	)
+	 </insert>
+	 
+	 <delete id="delete" parameterType="org.joonzis.ex.MemberVO">
+		 delete from member where id=#{id} and pw=#{pw}
+	 </delete>
+	 
+	 <!-- id로 회원 검색 -->
+	 <select id="select_by_id" parameterType="String" resultType="org.joonzis.ex.MemberVO">
+		SELECT * FROM MEMBER WHERE id=#{id}	 
+	 </select>
+	 
+	 <!-- 업데이트 할 회원 검색 -->
+	 <select id="select_update_view" parameterType="org.joonzis.ex.MemberVO" resultType="org.joonzis.ex.MemberVO">
+		SELECT * FROM MEMBER WHERE id=#{id} and pw=#{pw}
+	 </select>
+	 
+	 <!-- 회원 정보 수정 -->
+	 <update id="update" parameterType="org.joonzis.ex.MemberVO">
+	 	update member 
+	 	set 
+	 		pw=#{pw}, 
+	 		name=#{name}, 
+	 		age=#{age}, 
+	 		addr=#{addr}
+		where 
+			idx=#{idx}
+	 </update>
+	 
+</mapper>
