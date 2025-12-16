@@ -1,0 +1,24 @@
+-- 1. member 테이블 생성
+-- idx 숫자 기본키
+-- id 문자(20) 필수 중복제거
+-- pw 문자(20) 필수
+-- name 문자(20) 필수
+-- age 숫자 필수
+-- addr 문자(200) 필수
+-- reg_date 날짜 필수
+
+-- 2. member_seq 시퀀스 생성
+-- 시작 값 1
+-- 증가 값 1
+
+create table member(
+    idx number primary key,
+    id VARCHAR2(20) not null unique,
+    pw VARCHAR2(20) not null,
+    name VARCHAR2(20) not null ,
+    age number not null,
+    addr VARCHAR2(200) not null,
+    reg_date date not null
+);
+
+create SEQUENCE member_seq;
