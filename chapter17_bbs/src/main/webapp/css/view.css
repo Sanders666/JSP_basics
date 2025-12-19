@@ -1,0 +1,30 @@
+div {
+	width: 800px;
+	margin: auto;
+	text-align: center;
+}
+table {
+	width: 800px;
+	text-align: left;
+	border-collapse: collapse;		
+}
+
+td,th {
+	border : 1px solid #1e90ff;
+	padding: 10px;	
+}
+
+th {
+	width: 130px;
+	text-align: center;
+	background-color: #0078ff;
+	color: white;
+}
+
+#btn {
+text-align: center;
+}
+
+h1 {
+	color : #0078ff;	
+}

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.joonzis.mybatis.mapper.bbs"> 
+	<!-- 1. 게시글 전체 데이터 조회 -->
+<!--<select id="bbs_select_all" resultType="org.joonzis.vo.BVO">
+		SELECT * FROM BBS_T ORDER BY B_IDX DESC
+	</select>	
+-->	
+
+	<!-- 게시글 데이터 조회 (페이징) -->
+	<!-- a.* : 그 서브쿼리 결과의 모든 컬럼을 가져오겠다는 뜻 -->
+	<!-- <![CDATA[]]> : 태그로 해석되면 안 되는 순수 텍스트 데이터를 담을 때 사용 -->
+	<select id="bbs_select_all_with_paging" resultType="org.joonzis.vo.BVO">
+		<![CDATA[
+			SELECT b_idx, writer, title, hit, reg_date
+			FROM
+			    (SELECT ROWNUM rn, a.*
+			    from
+			        (SELECT b_idx, writer, title, hit, reg_date
+			        FROM bbs_t
+			        ORDER BY b_idx DESC) a
+			     WHERE ROWNUM <= #{pageNum} * #{amount})
+		    WHERE rn > (#{pageNum}-1) * #{amount}
+		]]>
+	</select>
+		
+
+	<!-- 2. 게시글 등록 -->
+	<insert id="insert_bbs" parameterType="org.joonzis.vo.BVO">
+		INSERT INTO BBS_T VALUES(
+			bbs_seq.nextval,
+			#{writer},
+			#{title},
+			#{content},
+			#{pw},
+			0,
+			#{ip},
+			#{filename},
+			sysdate
+		)
+	</insert>
+	
+	
+	<!-- 3. 게시글 상세페이지 -->
+	<select id="bbs_by_idx" parameterType="int" resultType="org.joonzis.vo.BVO">
+		SELECT * FROM BBS_T 
+		WHERE B_IDX = #{b_idx}
+	</select>
+	
+	<!-- 4. 게시글 삭제 -->
+	<delete id="delete_bbs" parameterType="int">
+		DELETE FROM BBS_T 
+		WHERE B_IDX=#{b_idx}
+	</delete>
+	
+	<!-- 5. 게시글 수정 -->
+	<update id="update_bbs" parameterType="org.joonzis.vo.BVO">
+		UPDATE BBS_T
+		SET
+			title = #{title},
+			content = #{content},
+			filename = #{filename}
+		WHERE b_idx = #{b_idx}
+	</update>
+	
+	<!-- 6. 조회수 증가 -->
+	<update id="update_hit" parameterType="org.joonzis.vo.BVO">
+		UPDATE BBS_T
+		SET hit = #{hit}
+		WHERE b_idx = #{b_idx}
+	</update>
+	
+	
+	<!-- 7. 게시글 수 가져오기 -->
+	<select id="total_count_of_bbs" resultType="int">
+		SELECT COUNT(*)
+		FROM bbs_t
+	</select>
+	
+	
+	
+</mapper>
