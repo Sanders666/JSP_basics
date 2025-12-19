@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.joonzis.mybatis.mapper.employees"> 
+	<select id="select_all" resultType="org.joonzis.vo.EmployeeVO">
+		SELECT * FROM EMPLOYEES ORDER BY EMPLOYEE_ID
+	</select>	
+	
+	<select id="select_dept" 
+		resultType="org.joonzis.vo.EmployeeVO"
+		parameterType="int">
+		SELECT * 
+		FROM EMPLOYEES  
+		WHERE DEPARTMENT_ID = #{deptId}
+		ORDER BY EMPLOYEE_ID
+	</select>
+	
+	<select id="select_dynamic" 
+		parameterType="map" 
+		resultType="org.joonzis.vo.EmployeeVO">
+		select * from employees where 
+		<choose>
+			<when test="key==1">employee_id = #{value}</when>
+			<when test="key==2">first_name = #{value}</when>
+			<when test="key==3">department_id = #{value}</when>
+		</choose>
+	</select>
+</mapper>
