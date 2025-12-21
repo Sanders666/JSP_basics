@@ -1,0 +1,16 @@
+body{
+	width: 500px;
+	margin: auto;
+}
+.navbar-brand{
+	font-size: 30px;
+	font-weight: bold;
+	margin-top: 20px;
+}
+.btn-div{
+	text-align: center;
+	padding: 20px;
+}
+.container-sm{
+	margin-top: 50px;
+}

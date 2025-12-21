@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.joonzis.mybatis.mapper.member"> 
+
+	<select id="validate_id" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM MEMBER_T WHERE MID=#{mId}
+	</select>
+	
+	<insert id="insert_member" parameterType="org.joonzis.vo.MemberVO">
+		INSERT INTO MEMBER_T VALUES(
+			member_seq.nextval,
+			#{mId},
+			#{mPw},
+			#{mName},
+			#{mEmail},
+			sysdate
+		)
+	</insert>
+	
+	<select id="login_member" parameterType="org.joonzis.vo.MemberVO" resultType="org.joonzis.vo.MemberVO">
+		SELECT * FROM MEMBER_T WHERE MID=#{mId} and MPW=#{mPw}
+	</select>
+	
+</mapper>
